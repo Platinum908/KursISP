@@ -43,12 +43,43 @@ namespace KursProjectISP31.Services
         }
         public override List<Employee> GetAll()
         {
-            
+            List<Employee> list = new List<Employee>();
+            using (objSqlconnection)
+            {
+                objSqlCommand.Parameters.Clear();
+                objSqlCommand.CommandText = "udp_SelectAllEmployee";
+                objSqlconnection.Open();
+                var ObjSqlDataReader = objSqlCommand.ExecuteReader();
+                if (ObjSqlDataReader.HasRows)
+                {
+                    Employee objEmployee = null;
+                    while (ObjSqlDataReader.Read())
+                    {
+                        objEmployee = new Employee();
+                        objEmployee.Id = ObjSqlDataReader.GetInt32(0);
+                        objEmployee.NameEmp = ObjSqlDataReader.GetString(1);
+                        objEmployee.Age = ObjSqlDataReader.GetInt32(2);
+                        list.Add(objEmployee);
+                    }
+                }
+                return list;
+            }
         }
-
         public override bool Update(Employee obj)
         {
-            throw new NotImplementedException();
+            bool IsUpdate = false;
+            using (objSqlconnection)
+            {
+                objSqlCommand.Parameters.Clear();
+                objSqlCommand.CommandText = "udp_UpdateEmployee";
+                objSqlCommand.Parameters.AddWithValue("@Id", obj.Id);
+                objSqlCommand.Parameters.AddWithValue("@NameEmp", obj.NameEmp);
+                objSqlCommand.Parameters.AddWithValue("@Age", obj.Age);
+                objSqlconnection.Open();
+                int updateRows = objSqlCommand.ExecuteNonQuery();
+                IsUpdate = updateRows > 0;
+            }
+            return IsUpdate;
         }
     }
 }
