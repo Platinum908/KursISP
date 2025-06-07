@@ -55,15 +55,11 @@
             <StackPanel Orientation="Horizontal"
            Grid.Row="4"
             Grid.Column="1" Margin="5,8">
-                <Button Name="btnAdd" 
+            <Button Name="btnAdd" 
                     Content="ADD" Margin="5,8" Padding="3" 
                     Command="{Binding Path=SaveCommand}"
                     />
-                <Button Name="btnSearch" 
-                    Content="Search" Margin="5,8" Padding="3" 
-                    Command="{Binding Path=SearchCommand}"
-                    />
-                <Button Name="btnUpdate" 
+            <Button Name="btnUpdate" 
                     Content="Update" Margin="5,8" Padding="3"
                       Command="{Binding Path=UpdateCommand}"
                     />

@@ -45,6 +45,8 @@ namespace KursProjectISP31.ViewModel
             LoadData();
             CurrentEmployee = new Employee();
             saveCommand = new RelayCommand(Save);
+            updateCommand = new RelayCommand(Update);
+            deleteCommand = new RelayCommand(Delete);
         }
 
         #region SaveOperation
@@ -71,7 +73,53 @@ namespace KursProjectISP31.ViewModel
         }
         #endregion
 
+        #region UpdateOperation
+        private RelayCommand updateCommand;
+        public RelayCommand UpdateCommand
+        {
+            get { return updateCommand; }
+        }
+        public void Update()
+        {
+            try
+            {
+                var IsUpdated = empService.Update(CurrentEmployee);
+                LoadData();
+                if (IsUpdated)
+                    Message = "Служащий обновлен";
+                else
+                    Message = "Ошибка обновления служащего";
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+        }
+        #endregion
 
+        #region DeleteOperation
+        private RelayCommand deleteCommand;
+        public RelayCommand DeleteCommand
+        {
+            get { return deleteCommand; }
+        }
+        public void Delete()
+        {
+            try
+            {
+                var IsDeleted = empService.Delete(CurrentEmployee.Id);
+                LoadData();
+                if (IsDeleted)
+                    Message = "Служащий удален";
+                else
+                    Message = "Ошибка удаления служащего";
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+        }
+        #endregion
 
     }
 }
