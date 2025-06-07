@@ -78,7 +78,7 @@
                   AutoGenerateColumns="False"
                   Grid.Row="6"
                    Grid.Column="1" Margin="5,8" Padding="3"
-                  ItemsSource="{Binding Path=EmpList, Mode=TwoWay}">
+                  ItemsSource="{Binding Path=EmpList, Mode=TwoWay}" SelectedItem="{Binding CurrentEmployee}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Employee Id" Width="auto" Binding="{Binding Path=Id}"/>
                     <DataGridTextColumn Header="Name" Width="auto" Binding="{Binding Path=NameEmp}"/>
