@@ -12,8 +12,8 @@ namespace KursProjectISP31.Services
 {
     public abstract class BaseService<T>
     {
-        private SqlConnection objSqlconnection;
-        private SqlCommand objSqlCommand;
+        protected SqlConnection objSqlconnection;
+        protected SqlCommand objSqlCommand;
         public BaseService()
         {
             objSqlconnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
