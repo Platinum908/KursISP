@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using KursProjectISP31.ViewModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,10 +17,12 @@ namespace KursProjectISP31;
 /// </summary>
 public partial class MainWindow : Window
 {
+    EmployeeViewModel ViewModel;
     public MainWindow()
     {
         
         InitializeComponent();
-        
+        ViewModel = new EmployeeViewModel();
+        DataContext = ViewModel;
     }
 }
