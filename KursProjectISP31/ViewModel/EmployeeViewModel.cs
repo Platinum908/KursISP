@@ -52,7 +52,6 @@ namespace KursProjectISP31.ViewModel
         public RelayCommand SaveCommand
         {
             get { return saveCommand; }
-
         }
         public void Save()
         {
@@ -61,9 +60,9 @@ namespace KursProjectISP31.ViewModel
                 var IsSaved = empService.Add(CurrentEmployee);
                 LoadData();
                 if (IsSaved)
-                    Message = "Employee saved";
+                    Message = "Служащий сохранен";
                 else
-                    Message = "Save operation failed";
+                    Message = "Ошибка сохранения служащего";
             }
             catch (Exception ex)
             {
@@ -71,6 +70,8 @@ namespace KursProjectISP31.ViewModel
             }
         }
         #endregion
+
+
 
     }
 }
