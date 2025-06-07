@@ -10,9 +10,12 @@
 
   <ItemGroup>
     <Folder Include="Assets\" />
-    <Folder Include="Model\" />
     <Folder Include="Resources\" />
     <Folder Include="ViewModel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
   </ItemGroup>
 
 </Project>
