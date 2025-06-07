@@ -45,7 +45,7 @@
             <TextBox Name="txtName" 
                  Grid.Row="2"
                  Grid.Column="1" Margin="5,8" Padding="3"
-                  Text="{Binding Path=CurrentEmployee.Name, Mode=TwoWay}"
+                  Text="{Binding Path=CurrentEmployee.NameEmp, Mode=TwoWay}"
                  />
             <TextBox Name="txtAge" 
                  Grid.Row="3"
@@ -85,7 +85,7 @@
                   ItemsSource="{Binding Path=EmployeesList, Mode=TwoWay}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Employee Id" Width="auto" Binding="{Binding Path=Id}"/>
-                    <DataGridTextColumn Header="Name" Width="auto" Binding="{Binding Path=Name}"/>
+                    <DataGridTextColumn Header="Name" Width="auto" Binding="{Binding Path=NameEmp}"/>
                     <DataGridTextColumn Header="Age" Width="auto" Binding="{Binding Path=Age}"/>
                 </DataGrid.Columns>
             </DataGrid>
