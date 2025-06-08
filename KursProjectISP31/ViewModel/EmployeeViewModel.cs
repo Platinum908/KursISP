@@ -44,14 +44,14 @@ namespace KursProjectISP31.ViewModel
             empService = new EmployeeService();
             LoadData();
             CurrentEmployee = new Employee();
-            saveCommand = new RelayCommand(Save);
-            updateCommand = new RelayCommand(Update);
-            deleteCommand = new RelayCommand(Delete);
+            saveCommand = new RelayCommandSQL(Save);
+            updateCommand = new RelayCommandSQL(Update);
+            deleteCommand = new RelayCommandSQL(Delete);
         }
 
         #region SaveOperation
-        private RelayCommand saveCommand;
-        public RelayCommand SaveCommand
+        private RelayCommandSQL saveCommand;
+        public RelayCommandSQL SaveCommand
         {
             get { return saveCommand; }
         }
@@ -74,8 +74,8 @@ namespace KursProjectISP31.ViewModel
         #endregion
 
         #region UpdateOperation
-        private RelayCommand updateCommand;
-        public RelayCommand UpdateCommand
+        private RelayCommandSQL updateCommand;
+        public RelayCommandSQL UpdateCommand
         {
             get { return updateCommand; }
         }
@@ -98,8 +98,8 @@ namespace KursProjectISP31.ViewModel
         #endregion
 
         #region DeleteOperation
-        private RelayCommand deleteCommand;
-        public RelayCommand DeleteCommand
+        private RelayCommandSQL deleteCommand;
+        public RelayCommandSQL DeleteCommand
         {
             get { return deleteCommand; }
         }

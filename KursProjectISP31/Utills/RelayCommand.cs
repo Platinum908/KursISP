@@ -9,20 +9,20 @@ namespace KursProjectISP31.Utills
 {
     public class RelayCommand:ICommand
     {
-        public event EventHandler CanExecuteChanged;
+        private readonly Action<object> _execute;
+        private readonly Func<object, bool> _canExecute;
 
-        private Action DoWork;
-        public RelayCommand(Action work)
+        public event EventHandler CanExecuteChanged
         {
-            DoWork = work;
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
-        public bool CanExecute(object parameter)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            return true;
+            _execute = execute;
+            _canExecute = canExecute;
         }
-        public void Execute(object parameter)
-        {
-            DoWork();
-        }
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
+        public void Execute(object parameter) => _execute(parameter);
     }
 }

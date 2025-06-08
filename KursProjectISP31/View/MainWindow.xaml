@@ -5,9 +5,85 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KursProjectISP31"
         mc:Ignorable="d"
-        xmlns:vm="clr-namespace:KursProjectISP31.View"
-        Title="Магазин" Height="450" Width="800">
+        xmlns:vm="clr-namespace:KursProjectISP31.ViewModel"
+        xmlns:Menu="clr-namespace:KursProjectISP31.Utills"
+        Title="Магазин" Height="500" Width="900"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent">
+    <Window.DataContext>
+        <vm:NavigationViewModel/>
+    </Window.DataContext>
     <Grid>
-        <vm:EmployerView/>
+        <Border Background="#212529"
+                CornerRadius="20" />
+        <Grid>
+
+            <!--// Base Grid //-->
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="228" />
+                <ColumnDefinition Width="622" />
+            </Grid.ColumnDefinitions>
+
+            <!--// Navigation Panel //-->
+
+            <Grid HorizontalAlignment="Left"
+                  Width="228">
+
+                <Border Background="#272B2F"
+                        CornerRadius="20,0,0,20" />
+
+                <StackPanel Height="400"
+                            Width="228">
+                    <!--// Home //-->
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding HomeCommand}"
+                              IsChecked="True">
+
+                        <Grid>
+
+                            <Image Source="/Assets/img_home.png"
+                                   Style="{StaticResource Image_Style}" />
+
+                            <TextBlock Text="Домой"
+                                       Style="{StaticResource Text_Style}" />
+
+                        </Grid>
+
+                    </Menu:Btn>
+                    <!--// Employee //-->
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding EmployeeCommand}">
+
+                        <Grid>
+
+                            <Image Source="/Assets/img_customer.png"
+                                   Style="{StaticResource Image_Style}" />
+
+                            <TextBlock Text="Клиент"
+                                       Style="{StaticResource Text_Style}" />
+
+                        </Grid>
+
+                    </Menu:Btn>
+                </StackPanel>
+
+            </Grid>
+
+            <Grid Grid.Column="1">
+
+                <ContentControl x:Name="Pages"
+                                Content="{Binding CurrentView}" />
+
+            </Grid>
+
+        </Grid>
+
+        <Button x:Name="CloseApp"
+                Style="{StaticResource ExitApp}" Click="CloseApp_Click"/>
     </Grid>
 </Window>

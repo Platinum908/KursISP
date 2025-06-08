@@ -17,12 +17,13 @@ namespace KursProjectISP31;
 /// </summary>
 public partial class MainWindow : Window
 {
-    EmployeeViewModel ViewModel;
     public MainWindow()
     {
-        
         InitializeComponent();
-        ViewModel = new EmployeeViewModel();
-        DataContext = ViewModel;
+    }
+
+    private void CloseApp_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
     }
 }
