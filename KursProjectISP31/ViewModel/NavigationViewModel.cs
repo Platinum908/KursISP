@@ -19,13 +19,15 @@ namespace KursProjectISP31.ViewModel
         }
         public ICommand HomeCommand { get; set; }
         public ICommand EmployeeCommand { get; set; }
-
-        private void Home(object obj) => CurrentView = new HomeViewModel();
+        public ICommand OrderCommand { get; set; }
+        private void HomePage(object obj) => CurrentView = new HomeViewModel();
         private void EmployeePage(object obj) => CurrentView = new EmployeeViewModel();
+        private void OrderPage(object obj) => CurrentView = new OrderViewModel();
         public NavigationViewModel()
         {
-            HomeCommand = new RelayCommand(Home);
+            HomeCommand = new RelayCommand(HomePage);
             EmployeeCommand = new RelayCommand(EmployeePage);
+            OrderCommand = new RelayCommand(OrderPage);
             // Startup Page
             CurrentView = new HomeViewModel();
         }

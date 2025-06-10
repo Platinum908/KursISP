@@ -13,83 +13,85 @@
         <vm:EmployeeViewModel />
     </UserControl.DataContext>
     <Grid Margin="15">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Список клиентов" 
+        <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Список клиентов" 
             Grid.Row="0" Grid.Column="0"
             Grid.ColumnSpan="2"
                    FontSize="20"
                    FontWeight="Bold"
                    HorizontalAlignment="Left" Margin="5,8" Padding="3"
                    Style="{StaticResource Text_Style}"/>
-        <TextBlock Text="Enter Id" Visibility="Collapsed"
+                <TextBlock Text="Enter Id" Visibility="Collapsed"
             Grid.Row="1"
             Grid.Column="0" Margin="5,8" Padding="3" Style="{StaticResource Text_Style}"/>
-            <TextBlock Text="Введите имя" 
+                <TextBlock Text="Введите имя" 
             Grid.Row="2"
             Grid.Column="0" Margin="5,8" Padding="3" Style="{StaticResource Text_Style}"/>
-            <TextBlock Text="Введите возраст" 
+                <TextBlock Text="Введите возраст" 
             Grid.Row="3"
             Grid.Column="0" Margin="5,8" Padding="3" Style="{StaticResource Text_Style}"/>
 
-        <Border CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Column="1"
+                <Border CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Column="1"
                 Grid.Row="2" Margin="5,8">
-            <TextBox Background="Transparent" Foreground="White" Padding="3"
+                    <TextBox Background="Transparent" Foreground="White" Padding="3"
                      BorderThickness="0" Name="txtContents"
                      Text="{Binding Path=CurrentEmployee.NameEmp, Mode=TwoWay}"
-                     Style="{StaticResource TextBoxStyle}"/>
-        </Border>
-        <Border CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Column="1"
+                     Style="{StaticResource PlaceholderTextBoxStyle}"
+                     Tag="Введите имя"/>
+                </Border>
+                <Border CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Column="1"
          Grid.Row="3" Margin="5,8">
-            <TextBox Background="Transparent" Foreground="White" Padding="3"
+                    <TextBox Background="Transparent" Foreground="White" Padding="3"
                      BorderThickness="0" Name="txtAge"
-                  Text="{Binding Path=CurrentEmployee.Age, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}"
+                  Text="{Binding Path=CurrentEmployee.Age, Mode=TwoWay}"
+                     Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Введите возраст"
                  />
-        </Border>
-        <StackPanel Orientation="Horizontal"
+                </Border>
+                <StackPanel Orientation="Horizontal"
            Grid.Row="4"
             Grid.Column="1" Margin="5,8">
-            <Button Name="btnAdd" 
+                    <Button Name="btnAdd" 
                     Content="Добавить" Margin="5,8" Padding="3" 
                     Command="{Binding Path=SaveCommand}"
                     />
-            <Button Name="btnUpdate" 
+                    <Button Name="btnUpdate" 
                     Content="Обновить" Margin="5,8" Padding="3"
                       Command="{Binding Path=UpdateCommand}"
                     />
-                <Button Name="btnDelete" 
+                    <Button Name="btnDelete" 
                     Content="Удалить" Margin="5,8" Padding="3"
                      Command="{Binding Path=DeleteCommand}"
                     />
 
-            </StackPanel>
-            <TextBlock Name="txtBlockMessage"
+                </StackPanel>
+                <TextBlock Name="txtBlockMessage"
                    Grid.Row="5"
                    Grid.Column="1" Margin="5,8" Padding="3" Foreground="Red"
                   Text="{Binding Path=Message}" Style="{StaticResource Text_Style}" 
                    />
-            <DataGrid Name="dgEmployees"
+        <DataGrid Name="dgEmployees"
                   AutoGenerateColumns="False"
                   Grid.Row="6"
                    Grid.Column="0" Margin="5,8" Padding="3" Grid.ColumnSpan="2"
                   ItemsSource="{Binding Path=EmpList, Mode=TwoWay}" SelectedItem="{Binding CurrentEmployee}"
                       Style="{StaticResource DataGridStyle}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Width="auto" Binding="{Binding Path=Id}"/>
-                    <DataGridTextColumn Header="ФИО" Width="auto" Binding="{Binding Path=NameEmp}"/>
-                    <DataGridTextColumn Header="Возраст" Width="auto" Binding="{Binding Path=Age}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Width="auto" Binding="{Binding Path=Id}"/>
+                <DataGridTextColumn Header="ФИО" Width="auto" Binding="{Binding Path=NameEmp}"/>
+                <DataGridTextColumn Header="Возраст" Width="auto" Binding="{Binding Path=Age}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </UserControl>

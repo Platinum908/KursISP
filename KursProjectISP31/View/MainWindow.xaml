@@ -70,6 +70,22 @@
                         </Grid>
 
                     </Menu:Btn>
+                    <!--// Order //-->
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+            Command="{Binding OrderCommand}">
+
+                        <Grid>
+
+                            <Image Source="/Assets/img_order.png"
+                 Style="{StaticResource Image_Style}" />
+
+                            <TextBlock Text="Заказ"
+                     Style="{StaticResource Text_Style}" />
+
+                        </Grid>
+
+                    </Menu:Btn>
                 </StackPanel>
 
             </Grid>

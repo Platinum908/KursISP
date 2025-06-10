@@ -8,4 +8,7 @@
     <DataTemplate DataType="{x:Type vm:EmployeeViewModel}">
         <view:EmployerView/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:OrderViewModel}">
+        <view:OrderView/>
+    </DataTemplate>
 </ResourceDictionary>
