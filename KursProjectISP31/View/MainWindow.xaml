@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:KursProjectISP31.ViewModel"
         xmlns:Menu="clr-namespace:KursProjectISP31.Utills"
-        Title="Магазин" Height="500" Width="900"
+        Title="Система управления рестораном" Height="720" Width="1280"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -15,91 +15,140 @@
     <Window.DataContext>
         <vm:NavigationViewModel/>
     </Window.DataContext>
-    <Grid>
-        <Border Background="#212529"
-                CornerRadius="20" />
+    
+    <Window.Resources>
+        <LinearGradientBrush x:Key="MainGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#1a1a2e" Offset="0"/>
+            <GradientStop Color="#16213e" Offset="0.5"/>
+            <GradientStop Color="#0f3460" Offset="1"/>
+        </LinearGradientBrush>
+        
+        <LinearGradientBrush x:Key="SidebarGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#2c3e50" Offset="0"/>
+            <GradientStop Color="#34495e" Offset="1"/>
+        </LinearGradientBrush>
+        
+        <LinearGradientBrush x:Key="ContentGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#ecf0f1" Offset="0"/>
+            <GradientStop Color="#bdc3c7" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+    
+    <Border Background="#343A40" CornerRadius="10">
         <Grid>
-
-            <!--// Base Grid //-->
-
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="228" />
-                <ColumnDefinition Width="622" />
+                <ColumnDefinition Width="230" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!--// Navigation Panel //-->
+            <!-- Sidebar -->
+            <Border Grid.Column="0" Background="#272B2F" CornerRadius="10,0,0,10">
+                <StackPanel>
+                    <!-- Logo -->
+                    <TextBlock Text="RESTAURANT" 
+                               Foreground="White" 
+                               FontSize="22" 
+                               FontWeight="Bold" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,20,0,30"/>
 
-            <Grid HorizontalAlignment="Left"
-                  Width="228">
-
-                <Border Background="#272B2F"
-                        CornerRadius="20,0,0,20" />
-
-                <StackPanel Height="400"
-                            Width="228">
-                    <!--// Home //-->
-
-                    <Menu:Btn Style="{StaticResource BtnStyle}"
-                              Command="{Binding HomeCommand}"
-                              IsChecked="True">
-
+                    <!-- Navigation Buttons -->
+                    <Menu:Btn Style="{StaticResource BtnStyle}" Command="{Binding TablesCommand}" IsChecked="True">
                         <Grid>
-
-                            <Image Source="/Assets/img_home.png"
-                                   Style="{StaticResource Image_Style}" />
-
-                            <TextBlock Text="Домой"
-                                       Style="{StaticResource Text_Style}" />
-
+                            <Image Source="/Assets/img_home.png" Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="Столики" Style="{StaticResource Text_Style}" />
                         </Grid>
-
                     </Menu:Btn>
-                    <!--// Employee //-->
 
-                    <Menu:Btn Style="{StaticResource BtnStyle}"
-                              Command="{Binding EmployeeCommand}">
-
+                    <Menu:Btn Style="{StaticResource BtnStyle}" Command="{Binding MenuCommand}">
                         <Grid>
-
-                            <Image Source="/Assets/img_customer.png"
-                                   Style="{StaticResource Image_Style}" />
-
-                            <TextBlock Text="Клиент"
-                                       Style="{StaticResource Text_Style}" />
-
+                            <Image Source="/Assets/img_order.png" Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="Меню" Style="{StaticResource Text_Style}" />
                         </Grid>
-
                     </Menu:Btn>
-                    <!--// Order //-->
 
-                    <Menu:Btn Style="{StaticResource BtnStyle}"
-            Command="{Binding OrderCommand}">
-
+                    <Menu:Btn Style="{StaticResource BtnStyle}" Command="{Binding BookingCommand}">
                         <Grid>
-
-                            <Image Source="/Assets/img_order.png"
-                 Style="{StaticResource Image_Style}" />
-
-                            <TextBlock Text="Заказ"
-                     Style="{StaticResource Text_Style}" />
-
+                            <Image Source="/Assets/img_customer.png" Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="Бронирование" Style="{StaticResource Text_Style}" />
                         </Grid>
-
                     </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}" Command="{Binding OrderCommand}">
+                        <Grid>
+                            <Image Source="/Assets/img_order.png" Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="Заказы" Style="{StaticResource Text_Style}" />
+                        </Grid>
+                    </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}" Command="{Binding ReportsCommand}">
+                        <Grid>
+                            <Image Source="/Assets/img_customer.png" Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="Отчеты" Style="{StaticResource Text_Style}" />
+                        </Grid>
+                    </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}" Command="{Binding OrderTrackingCommand}">
+                        <Grid>
+                            <Image Source="/Assets/img_order.png" Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="Учет заказов" Style="{StaticResource Text_Style}" />
+                        </Grid>
+                    </Menu:Btn>
+
+                    <!-- Settings Button -->
+                    <Button Style="{StaticResource SettingsButtonStyle}" VerticalAlignment="Bottom" Margin="0,150,0,0">
+                        <Grid>
+                            <Image Source="/Assets/shutdown_def.png" Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="Настройки" Style="{StaticResource Text_Style}" />
+                        </Grid>
+                    </Button>
                 </StackPanel>
+            </Border>
 
-            </Grid>
-
+            <!-- Main Content -->
             <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                <ContentControl x:Name="Pages"
-                                Content="{Binding CurrentView}" />
+                <!-- Top Bar -->
+                <Border Grid.Row="0" Background="#272B2F">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
+                        <!-- Search Box -->
+                        <TextBox Style="{StaticResource TopBarSearchBoxStyle}" 
+                                 Tag="🔍 Поиск..."
+                                 Grid.Column="0"/>
+                        
+                        <!-- User Profile -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Style="{StaticResource TopBarButtonStyle}">
+                                <Image Source="/Assets/shutdown_mo.png" Height="20" Width="20"/>
+                            </Button>
+                            <TextBlock Text="Администратор" 
+                                       VerticalAlignment="Center" 
+                                       Foreground="White"
+                                       Margin="10,0,20,0"/>
+                            <Button Style="{StaticResource ExitApp}" 
+                                    x:Name="CloseApp" 
+                                    Click="CloseApp_Click"
+                                    Margin="0,0,15,0"
+                                    VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                
+                <!-- Content Area -->
+                <ContentControl Grid.Row="1"
+                                x:Name="Pages"
+                                Content="{Binding CurrentView}"
+                                Margin="20" />
             </Grid>
-
         </Grid>
-
-        <Button x:Name="CloseApp"
-                Style="{StaticResource ExitApp}" Click="CloseApp_Click"/>
-    </Grid>
+    </Border>
 </Window>

@@ -1,131 +1,134 @@
-﻿using KursProjectISP31.Model;
+using KursProjectISP31.Model;
 using KursProjectISP31.Services;
 using KursProjectISP31.Utills;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace KursProjectISP31.ViewModel
 {
-    internal class OrderViewModel:ViewModelBase
+    public class OrderViewModel : ViewModelBase
     {
-        private OrderService orderService;
-        private EmployeeService employeeService;
-        #region DisplayOperation
-        private ObservableCollection<Order> orderList;
-        public ObservableCollection<Order> OrderList
-        {
-            get => orderList;
-            set { orderList = value; OnPropertyChanged(nameof(OrderList)); }
-        }
-        private List<Employee> employeeList=new();
-        public List<Employee> EmployeeList
-        {
-            get => employeeList;
-            set { employeeList = value; OnPropertyChanged(nameof(EmployeeList)); }
-        }
-        private void LoadData()
-        {
-            OrderList = new ObservableCollection<Order>(orderService.GetAll());
-            EmployeeList = employeeService.GetAll();
-        }
-        #endregion
-        private Order currentOrder;
-        public Order CurrentOrder
-        {
-            get { return currentOrder; }
-            set { currentOrder = value; OnPropertyChanged(nameof(CurrentOrder)); }
-        }
-        private string message;
-        public string Message
-        {
-            get { return message; }
-            set { message = value; OnPropertyChanged(nameof(Message)); }
-        }
+        private readonly RestaurantService _restaurantService;
+
+        public ObservableCollection<RestaurantTable> AvailableTables { get; set; }
+        public ObservableCollection<MenuItem> MenuItems { get; set; }
+        public ObservableCollection<OrderItem> CurrentOrderItems { get; set; }
+
+        private Order _newOrder;
+        public Order NewOrder { get => _newOrder; set { _newOrder = value; OnPropertyChanged(); } }
+
+        private RestaurantTable _selectedTable;
+        public RestaurantTable SelectedTable { get => _selectedTable; set { _selectedTable = value; OnPropertyChanged(); } }
+
+        private MenuItem _selectedMenuItem;
+        public MenuItem SelectedMenuItem { get => _selectedMenuItem; set { _selectedMenuItem = value; OnPropertyChanged(); } }
+        
+        private int _quantity = 1;
+        public int Quantity { get => _quantity; set { _quantity = value; OnPropertyChanged(); } }
+
+        private string _message;
+        public string Message { get => _message; set { _message = value; OnPropertyChanged(); } }
+        
+        public decimal OrderTotal => CurrentOrderItems.Sum(item => item.Total);
+
+        public ICommand CreateOrderCommand { get; set; }
+        public ICommand AddToOrderCommand { get; set; }
+        public ICommand GenerateBillCommand { get; set; }
+
         public OrderViewModel()
         {
-            orderService = new OrderService();
-            employeeService = new EmployeeService();
-            LoadData();
-            CurrentOrder = new Order();
-            saveCommand = new RelayCommandSQL(Save);
-            updateCommand = new RelayCommandSQL(Update);
-            deleteCommand = new RelayCommandSQL(Delete);
+            _restaurantService = new RestaurantService();
+            
+            CreateOrderCommand = new RelayCommand(CreateOrder, CanCreateOrder);
+            AddToOrderCommand = new RelayCommand(AddToOrder, CanAddToOrder);
+            GenerateBillCommand = new RelayCommand(GenerateBill, CanGenerateBill);
+
+            LoadInitialData();
         }
 
-        #region SaveOperation
-        private RelayCommandSQL saveCommand;
-        public RelayCommandSQL SaveCommand
+        private void LoadInitialData()
         {
-            get { return saveCommand; }
+            AvailableTables = new ObservableCollection<RestaurantTable>(_restaurantService.GetAvailableTables());
+            MenuItems = new ObservableCollection<MenuItem>(_restaurantService.GetMenu());
+            CurrentOrderItems = new ObservableCollection<OrderItem>();
+            NewOrder = new Order { Id = _restaurantService.GetNextOrderId() };
+            CurrentOrderItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(OrderTotal));
         }
-        public void Save()
+
+        private bool CanCreateOrder(object obj) => SelectedTable != null && NewOrder.TableId == 0;
+        private void CreateOrder(object obj)
         {
+            NewOrder.TableId = SelectedTable.Id;
+            NewOrder.OrderDateTime = DateTime.Now;
+
             try
             {
-                var IsSaved = orderService.Add(CurrentOrder);
-                LoadData();
-                if (IsSaved)
-                    Message = "Заказ сохранен";
+                if (_restaurantService.MakeOrder(NewOrder))
+                {
+                    Message = $"Заказ {NewOrder.Id} для столика {NewOrder.TableId} создан.";
+                }
+                else Message = "Не удалось создать заказ.";
+            }
+            catch (Exception ex) { Message = $"Ошибка: {ex.Message}"; }
+        }
+
+        private bool CanAddToOrder(object obj) => NewOrder.TableId != 0 && SelectedMenuItem != null && Quantity > 0;
+        private void AddToOrder(object obj)
+        {
+            var newOrderItem = new OrderItem
+            {
+                Id = _restaurantService.GetNextOrderItemId(),
+                MenuItemId = SelectedMenuItem.Id,
+                OrderId = NewOrder.Id,
+                Quantity = this.Quantity,
+                Status = 0,
+                Name = SelectedMenuItem.Name,
+                Price = SelectedMenuItem.Price
+            };
+
+            try
+            {
+                if (_restaurantService.AddInOrder(newOrderItem))
+                {
+                    CurrentOrderItems.Add(newOrderItem); 
+                    Message = $"Добавлено: {SelectedMenuItem.Name} x{Quantity}.";
+                }
+                else Message = "Не удалось добавить позицию.";
+            }
+            catch (Exception ex) { Message = $"Ошибка: {ex.Message}"; }
+        }
+
+        private bool CanGenerateBill(object obj) => NewOrder.TableId != 0 && CurrentOrderItems.Any();
+        private void GenerateBill(object obj)
+        {
+            var newBill = new Bill
+            {
+                Id = _restaurantService.GetNextBillId(),
+                OrderId = NewOrder.Id,
+                TableId = NewOrder.TableId,
+                TotalAmount = OrderTotal,
+                PaymentDateTime = DateTime.Now
+            };
+
+            try
+            {
+                if (_restaurantService.SaveBill(newBill))
+                {
+                    Message = $"Счет на сумму {OrderTotal:C} для заказа {NewOrder.Id} успешно создан.";
+                    
+                    LoadInitialData();
+                }
                 else
-                    Message = "Ошибка сохранения заказа";
+                {
+                    Message = "Не удалось создать счет.";
+                }
             }
             catch (Exception ex)
             {
-                Message = ex.Message;
+                Message = $"Ошибка при создании счета: {ex.Message}";
             }
         }
-        #endregion
-
-        #region UpdateOperation
-        private RelayCommandSQL updateCommand;
-        public RelayCommandSQL UpdateCommand
-        {
-            get { return updateCommand; }
-        }
-        public void Update()
-        {
-            try
-            {
-                var IsUpdated = orderService.Update(CurrentOrder);
-                LoadData();
-                if (IsUpdated)
-                    Message = "Заказ обновлен";
-                else
-                    Message = "Ошибка обновления заказ";
-            }
-            catch (Exception ex)
-            {
-                Message = ex.Message;
-            }
-        }
-        #endregion
-
-        #region DeleteOperation
-        private RelayCommandSQL deleteCommand;
-        public RelayCommandSQL DeleteCommand
-        {
-            get { return deleteCommand; }
-        }
-        public void Delete()
-        {
-            try
-            {
-                var IsDeleted = orderService.Delete(CurrentOrder.Id);
-                LoadData();
-                if (IsDeleted)
-                    Message = "Заказ удален";
-                else
-                    Message = "Ошибка удаления заказа";
-            }
-            catch (Exception ex)
-            {
-                Message = ex.Message;
-            }
-        }
-        #endregion
     }
-}
+} 

@@ -1,0 +1,74 @@
+<UserControl x:Class="KursProjectISP31.View.TablesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KursProjectISP31.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="640" d:DesignWidth="1050"
+             Style="{StaticResource Page_Style}">
+    <Grid>
+        <!-- Header -->
+        <TextBlock Text="Столики" Foreground="White" FontSize="20" FontWeight="SemiBold" Margin="0,5,0,0"/>
+
+        <!-- Main Content -->
+        <Border Background="#272B2F" CornerRadius="8" Margin="0,40,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Action Bar -->
+                <Grid Grid.Row="0" Margin="15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <TextBlock Text="Показать столики на дату:" VerticalAlignment="Center" Foreground="#EAEAEA" Margin="0,0,10,0"/>
+                        <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}" Width="150"/>
+                        <Button Content="Найти" Command="{Binding FindTablesCommand}" Style="{StaticResource DefaultButtonStyle}" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    
+                    <TextBox Style="{StaticResource PlaceholderTextBoxStyle}" 
+                             Tag="🔍 Поиск по всем колонкам..."
+                             Grid.Column="2"
+                             Width="250"/>
+                </Grid>
+
+                <!-- Data Grid -->
+                <DataGrid Grid.Row="1" 
+                          ItemsSource="{Binding AvailableTables}" 
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True" 
+                          Style="{StaticResource DataGridStyle}"
+                          Margin="15,0,15,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID СТОЛИКА" Binding="{Binding Id}" Width="1*"/>
+                        <DataGridTextColumn Header="ID ЗАЛА" Binding="{Binding HallId}" Width="1*"/>
+                        <DataGridTextColumn Header="КОЛ-ВО МЕСТ" Binding="{Binding Seats}" Width="2*"/>
+                        <DataGridTextColumn Header="СТАТУС" Binding="{Binding Status}" Width="2*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Footer -->
+                <Grid Grid.Row="2" Margin="15">
+                    <TextBlock Text="Показано 1-10 из 40 записей" Foreground="#868E96" VerticalAlignment="Center"/>
+                    
+                    <!-- Pagination -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="&lt;" Style="{StaticResource DefaultButtonStyle}" Margin="2"/>
+                        <Button Content="1" Style="{StaticResource PrimaryButtonStyle}" Margin="2"/>
+                        <Button Content="2" Style="{StaticResource DefaultButtonStyle}" Margin="2"/>
+                        <Button Content="3" Style="{StaticResource DefaultButtonStyle}" Margin="2"/>
+                        <Button Content="&gt;" Style="{StaticResource DefaultButtonStyle}" Margin="2"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl> 

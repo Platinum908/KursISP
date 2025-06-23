@@ -1,0 +1,42 @@
+<UserControl x:Class="KursProjectISP31.View.OrderTrackingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KursProjectISP31.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="640" d:DesignWidth="1050"
+             Style="{StaticResource Page_Style}">
+    <Grid>
+        <!-- Header -->
+        <TextBlock Text="Учет заказов" Foreground="White" FontSize="20" FontWeight="SemiBold" Margin="0,5,0,0"/>
+
+        <!-- Main Content -->
+        <Border Background="#272B2F" CornerRadius="8" Margin="0,40,0,0">
+            <DataGrid Margin="15" 
+                      ItemsSource="{Binding AllOrderItems}" 
+                      SelectedItem="{Binding SelectedOrderItem}" 
+                      AutoGenerateColumns="False" 
+                      Style="{StaticResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№ ЗАКАЗА" Binding="{Binding OrderId}" IsReadOnly="True" Width="1*"/>
+                    <DataGridTextColumn Header="НАЗВАНИЕ БЛЮДА" Binding="{Binding Name}" Width="2*" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="КОЛИЧЕСТВО" Binding="{Binding Quantity}" IsReadOnly="True" Width="1*"/>
+                    <DataGridTextColumn Header="СТАТУС" Binding="{Binding StatusText}" IsReadOnly="True" Width="1*"/>
+                    <DataGridTemplateColumn Header="ИЗМЕНИТЬ СТАТУС" Width="1.5*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding Status, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                          SelectionChanged="StatusComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Ожидает" Tag="0"/>
+                                    <ComboBoxItem Content="Готовится" Tag="1"/>
+                                    <ComboBoxItem Content="Готов" Tag="2"/>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl> 

@@ -2,9 +2,9 @@ using System.Windows.Controls;
 
 namespace KursProjectISP31.View
 {
-    public partial class OrderView : UserControl
+    public partial class BookingView : UserControl
     {
-        public OrderView()
+        public BookingView()
         {
             InitializeComponent();
         }

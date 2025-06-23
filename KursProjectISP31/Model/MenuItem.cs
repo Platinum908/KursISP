@@ -1,0 +1,11 @@
+namespace KursProjectISP31.Model
+{
+    public class MenuItem
+    {
+        public int Id { get; set; }
+        public string Category { get; set; }
+        public string Name { get; set; }
+        public int Weight { get; set; }
+        public decimal Price { get; set; }
+    }
+} 

@@ -1,21 +1,78 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Main DataGrid Style -->
     <Style TargetType="{x:Type DataGrid}" x:Key="DataGridStyle">
-        <Setter Property="Background" Value="#FFFFFF"/>
-        <Setter Property="AlternatingRowBackground" Value="#F9F9F9"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="#DDDDDD"/>
-        <Setter Property="VerticalGridLinesBrush" Value="#DDDDDD"/>
-        <Setter Property="BorderBrush" Value="#AAAAAA"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="#272B2F"/>
+        <Setter Property="RowBackground" Value="#343A40"/>
+        <Setter Property="AlternatingRowBackground" Value="#3A4148"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="#4A525A"/>
+        <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CanUserAddRows" Value="False"/>
         <Setter Property="CanUserDeleteRows" Value="False"/>
         <Setter Property="IsReadOnly" Value="True"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="SelectionMode" Value="Single"/>
-        <Setter Property="SelectionUnit" Value="FullRow"/>
-        <Setter Property="Margin" Value="10"/>
         <Setter Property="RowHeaderWidth" Value="0"/>
-        <Setter Property="ColumnHeaderHeight" Value="30"/>
-        <Setter Property="HeadersVisibility" Value="All"/>
+        <Setter Property="ColumnHeaderHeight" Value="40"/>
+        <Setter Property="RowHeight" Value="35"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
     </Style>
+
+    <!-- DataGrid Cell Style -->
+    <Style TargetType="{x:Type DataGridCell}">
+        <Setter Property="Foreground" Value="#EAEAEA" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Left" 
+                                          VerticalAlignment="Center"
+                                          Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#007BFF" />
+                <Setter Property="Foreground" Value="White" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- DataGrid Column Header Style -->
+    <Style TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="Background" Value="#272B2F" />
+        <Setter Property="Foreground" Value="#CED4DA" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="BorderThickness" Value="0,0,0,2" />
+        <Setter Property="BorderBrush" Value="#4A525A" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- Card Style for Data Items -->
+    <Style x:Key="CardStyle" TargetType="Border">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderBrush" Value="#e9ecef" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="15" />
+        <Setter Property="Effect" Value="{x:Null}">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="2" BlurRadius="6" Opacity="0.1"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
